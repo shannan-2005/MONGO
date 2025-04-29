@@ -1,0 +1,453 @@
+ex1)
+import unittest
+i)
+# Function to calculate factorial
+def factorial(n):
+    if n < 0:
+        raise ValueError("Factorial is not defined for negative numbers.")
+    if n == 0:
+        return 1
+    result = 1
+    for i in range(1, n + 1):
+        result *= i
+    return result
+
+# Test case for the factorial function
+class TestFactorial(unittest.TestCase):
+
+    def test_positive_numbers(self):
+        test_values = [1, 5, 10]
+        print(f"\nTesting factorial for positive numbers: {test_values}")
+        self.assertEqual(factorial(1), 1)
+        self.assertEqual(factorial(5), 120)
+        self.assertEqual(factorial(10), 3628800)
+
+    def test_zero(self):
+        print("\nTesting factorial for zero: [0]")
+        self.assertEqual(factorial(0), 1)
+
+    def test_negative_numbers(self):
+        test_values = [-1, -10]
+        print(f"\nTesting factorial for negative numbers (should raise ValueError): {test_values}")
+        with self.assertRaises(ValueError):
+            factorial(-1)
+        with self.assertRaises(ValueError):
+            factorial(-10)
+
+if __name__ == "__main__":
+    unittest.main(argv=['first-arg-is-ignored'], exit=False)
+
+
+ii)
+import unittest
+
+# Function to check if a string is a palindrome
+def is_palindrome(s):
+    return s == s[::-1]
+
+# Test case for the palindrome function
+class TestIsPalindrome(unittest.TestCase):
+
+    def test_even_length(self):
+        test_values = ["abba", "1221"]
+        print(f"\nTesting is_palindrome for even length strings: {test_values}")
+        self.assertTrue(is_palindrome("abba"))
+        self.assertTrue(is_palindrome("1221"))
+
+    def test_odd_length(self):
+        test_values = ["racecar", "madam"]
+        print(f"\nTesting is_palindrome for odd length strings: {test_values}")
+        self.assertTrue(is_palindrome("racecar"))
+        self.assertTrue(is_palindrome("madam"))
+
+    def test_non_palindrome(self):
+        test_values = ["hello", "world"]
+        print(f"\nTesting is_palindrome for non-palindrome strings: {test_values}")
+        self.assertFalse(is_palindrome("hello"))
+        self.assertFalse(is_palindrome("world"))
+
+    def test_special_characters(self):
+        test_values_true = ["!@##@!"]
+        test_values_false = ["!@#a@!"]
+        print(f"\nTesting is_palindrome for special character strings, expecting True: {test_values_true}")
+        print(f"Testing is_palindrome for special character strings, expecting False: {test_values_false}")
+        self.assertTrue(is_palindrome("!@##@!"))
+        self.assertFalse(is_palindrome("!@#a@!"))
+
+if __name__ == "__main__":
+    unittest.main(argv=['first-arg-is-ignored'], exit=False)
+
+
+iii)
+import unittest
+
+# Function to check if a number is prime
+def is_prime(n):
+    if n < 2:
+        return False
+    for i in range(2, int(n**0.5)+1):
+        if n % i == 0:
+            return False
+    return True
+
+# Test case for the prime checking function
+class TestIsPrime(unittest.TestCase):
+
+    def test_prime_numbers(self):
+        test_values = [2, 3, 17, 97]
+        print(f"\nTesting is_prime for prime numbers: {test_values}")
+        self.assertTrue(is_prime(2))
+        self.assertTrue(is_prime(3))
+        self.assertTrue(is_prime(17))
+        self.assertTrue(is_prime(97))
+
+    def test_non_prime_numbers(self):
+        test_values = [1, 0, 4, 100]
+        print(f"\nTesting is_prime for non-prime numbers: {test_values}")
+        self.assertFalse(is_prime(1))
+        self.assertFalse(is_prime(0))
+        self.assertFalse(is_prime(4))
+        self.assertFalse(is_prime(100))
+
+    def test_negative_numbers(self):
+        test_values = [-5, -13]
+        print(f"\nTesting is_prime for negative numbers: {test_values}")
+        self.assertFalse(is_prime(-5))
+        self.assertFalse(is_prime(-13))
+
+if __name__ == "__main__":
+    unittest.main(argv=['first-arg-is-ignored'], exit=False)
+
+
+iv)
+import unittest
+
+# Function to sort a list in ascending order
+def sort_list(lst):
+    return sorted(lst)
+
+# Test case for the sort list function
+class TestSortList(unittest.TestCase):
+
+    def test_sorted_list(self):
+        test_values = [3, 1, 4, 1, 5]
+        expected = [1, 1, 3, 4, 5]
+        print(f"\nTesting sort_list with list: {test_values}")
+        self.assertEqual(sort_list(test_values), expected)
+
+    def test_empty_list(self):
+        test_values = []
+        print(f"\nTesting sort_list with empty list: {test_values}")
+        self.assertEqual(sort_list(test_values), [])
+
+    def test_single_element(self):
+        test_values = [10]
+        print(f"\nTesting sort_list with single element list: {test_values}")
+        self.assertEqual(sort_list(test_values), [10])
+
+    def test_negative_numbers(self):
+        test_values = [5, -1, 0, 2]
+        expected = [-1, 0, 2, 5]
+        print(f"\nTesting sort_list with list containing negatives: {test_values}")
+        self.assertEqual(sort_list(test_values), expected)
+
+if __name__ == "__main__":
+    unittest.main(argv=['first-arg-is-ignored'], exit=False)
+
+import unittest
+
+# Function to calculate the sum of all elements in a nested list
+def sum_nested_list(lst):
+    total = 0
+    for item in lst:
+        if isinstance(item, list):
+            total += sum_nested_list(item)
+        else:
+            total += item
+    return total
+
+v)
+# Test case for the sum nested list function
+class TestSumNestedList(unittest.TestCase):
+
+    def test_simple_nesting(self):
+        test_value = [1, [2, 3], 4]
+        print(f"\nTesting sum_nested_list with simple nesting: {test_value}")
+        self.assertEqual(sum_nested_list(test_value), 10)
+
+    def test_deep_nesting(self):
+        test_value = [1, [2, [3, 4]], 5]
+        print(f"\nTesting sum_nested_list with deep nesting: {test_value}")
+        self.assertEqual(sum_nested_list(test_value), 15)
+
+    def test_negative_numbers(self):
+        test_value = [-1, [-2, [-3, 4]]]
+        print(f"\nTesting sum_nested_list with negative numbers: {test_value}")
+        self.assertEqual(sum_nested_list(test_value), -2)
+
+    def test_empty_list(self):
+        test_value = []
+        print(f"\nTesting sum_nested_list with an empty list: {test_value}")
+        self.assertEqual(sum_nested_list(test_value), 0)
+
+    def test_single_deep_value(self):
+        test_value = [[[[1]]]]
+        print(f"\nTesting sum_nested_list with a deeply nested single value: {test_value}")
+        self.assertEqual(sum_nested_list(test_value), 1)
+
+if __name__ == "__main__":
+    unittest.main(argv=['first-arg-is-ignored'], exit=False)
+
+
+ex2)
+git config –global user.name “Andamma”
+
+git config –global user.email “ashwathy@karunya.edu”
+
+git config –global user.password “123456”
+
+git init
+
+git pull copied link
+
+git add .
+
+git commit –m “changes made”
+
+git remote add origin copied link
+
+git remote –v
+
+git push –u origin master
+
+
+ex3)
+import pandas as pd
+from sklearn.model_selection import train_test_split
+from sklearn.tree import DecisionTreeClassifier
+from sklearn.metrics import accuracy_score
+
+data = pd.read_csv('data.csv')
+
+X = data.drop('label', axis=1)
+y = data['label']
+
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
+
+model = DecisionTreeClassifier()
+
+model.fit(X_train, y_train)
+
+y_pred = model.predict(X_test)
+
+accuracy = accuracy_score(y_test, y_pred)
+print(f"Test Accuracy: {accuracy:.2f}")
+
+
+(dockerfile)
+# Use lightweight Python image
+FROM python:3.9-slim
+
+# Set working directory
+WORKDIR /app
+
+# Copy script and CSV file into container
+COPY train_model.py .
+COPY data.csv .
+
+# Install dependencies
+RUN pip install --no-cache-dir pandas scikit-learn
+
+# Run the script
+CMD ["python", "train_model.py"]
+
+docker build -t simplemodel .
+docker run simplemodel
+
+
+4)
+import pandas as pd
+import numpy as np
+from sklearn.model_selection import train_test_split
+from sklearn.ensemble import RandomForestClassifier 
+from sklearn.inspection import permutation_importance
+df = pd.read_csv('housing.csv') 
+X = df.drop('ocean_proximity', axis=1)
+y = df['ocean_proximity']
+
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
+
+result = permutation_importance(
+    model, 
+    X_test, 
+    y_test, 
+    n_repeats=30,  
+    random_state=42,
+    n_jobs=-1
+)
+
+importance_df = pd.DataFrame({'Feature': X.columns, 'Importance_Mean': result.importances_mean,'Importance_Std': result.importances_std}).sort_values(by='Importance_Mean', ascending=False)
+print(importance_df)
+
+import matplotlib.pyplot as plt
+plt.figure(figsize=(10,6))
+plt.barh(importance_df['Feature'], importance_df['Importance_Mean'])
+plt.xlabel('Mean Importance')
+plt.title('Permutation Feature Importance')
+plt.gca().invert_yaxis()
+plt.show()
+
+5)
+from flask import Flask, request, jsonify
+import pickle
+import pandas as pd
+from sklearn.ensemble import RandomForestClassifier
+from sklearn.model_selection import train_test_split
+
+app = Flask(__name__)
+
+# Function to train a simple model
+def train_model():
+    # Load any dataset from CSV
+    data = pd.read_csv('winequality_FS.csv')
+
+    # Assume the label column is called 'label'
+    X = data.drop('quality', axis=1)
+    y = data['quality']
+
+    X_train, X_test, y_train, y_test = train_test_split(
+        X, y, test_size=0.2, random_state=42
+    )
+
+    model = RandomForestClassifier(random_state=42)
+    model.fit(X_train, y_train)
+
+    # Save model
+    with open('model.pkl', 'wb') as f:
+        pickle.dump(model, f)
+
+# Function to load model
+def load_model():
+    with open('model.pkl', 'rb') as f:
+        model = pickle.load(f)
+    return model
+
+# Train and load model when server starts
+train_model()
+model = load_model()
+
+# Route for homepage
+@app.route('/')
+def home():
+    return "Model server is running. Use POST /predict to get predictions."
+
+# Route for making predictions
+@app.route('/predict', methods=['POST'])
+def predict():
+    data = request.get_json()
+
+    # Convert input JSON to DataFrame
+    input_df = pd.DataFrame([data])  # expecting single input
+
+    # Make prediction
+    prediction = model.predict(input_df)[0]
+
+    # Return the prediction
+    return jsonify({'prediction': int(prediction)})
+
+# Run the server
+if __name__ == '__main__':
+    app.run(host='0.0.0.0', port=5000)
+
+(dockerfile)
+# Base Python image
+FROM python:3.9-slim
+
+# Set working directory
+WORKDIR /app
+
+# Copy files
+COPY app.py .
+COPY winequality_FS.csv .
+
+# Install dependencies
+RUN pip install flask scikit-learn pandas
+
+# Expose port
+EXPOSE 5000
+
+# Command to run the app
+CMD ["python", "app.py"]
+
+
+7)
+# Install if needed
+# pip install tpot pandas scikit-learn
+
+import pandas as pd
+from sklearn.model_selection import train_test_split
+from tpot import TPOTClassifier
+
+# STEP 1: Load your Wine Quality dataset
+# Change 'winequality.csv' to your actual file name if different
+data = pd.read_csv('winequality_FS.csv')
+
+# STEP 2: Split features and target
+X = data.drop('quality', axis=1)   # Features
+y = data['quality']                # Target (what we want to predict)
+
+# STEP 3: Split into Train and Test datasets
+X_train, X_test, y_train, y_test = train_test_split(
+    X, y, test_size=0.2, random_state=42
+)
+
+# STEP 4: Create and Train TPOT Classifier
+tpot = TPOTClassifier(
+    generations=5,          # Try increasing for better models (e.g., 10 or 20)
+    population_size=50,     # Number of models tried per generation
+    verbosity=2,            # Shows what's happening
+    random_state=42,
+    n_jobs=-1               # Use all CPU cores
+)
+
+tpot.fit(X_train, y_train)
+
+# STEP 5: Evaluate the model
+print(f"Test Accuracy: {tpot.score(X_test, y_test)}")
+
+# STEP 6: Export the best pipeline to a Python file
+tpot.export('best_wine_quality_pipeline.py')
+
+
+8)
+import random, time, logging, mlflow
+
+logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
+logger = logging.getLogger()
+
+def generate_data():
+    with mlflow.start_run():
+        mlflow.log_params({'app_name': 'MyApp', 'version': '1.0'})
+        start = time.time()
+        try:
+            while True:
+                data = random.randint(0, 100)
+                logger.info(f"Data: {data}")
+                mlflow.log_metrics({'my_metric': data, 'uptime': time.time() - start})
+                time.sleep(2)
+        except KeyboardInterrupt:
+            logger.info("Stopped.")
+        finally:
+            mlflow.end_run()
+
+if __name__ == "__main__":
+    logger.info("App Started.")
+    generate_data()
+    logger.info("App Stopped.")
+
+
+
+
+
+
+
