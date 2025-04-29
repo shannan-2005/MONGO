@@ -1,0 +1,48 @@
+import pandas as pd
+import logging
+import mlflow
+import time
+import random
+from sklearn.model_selection import train_test_split
+from sklearn.ensemble import RandomForestClassifier
+from sklearn.metrics import accuracy_score
+logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(name)s - %(levelname)s - %(message)s')
+logger = logging.getLogger(__name__)
+def train_and_log_model(dataset_path, target_column):
+    """Train model on dataset and log metrics to MLflow."""
+    try:
+        mlflow.start_run()
+        mlflow.log_params({'app_name': 'DatasetTrainer', 'version': '1.0'})
+        logger.info("Loading dataset...")
+        data = pd.read_csv(dataset_path)
+        X = data.drop(columns=[target_column])
+        y = data[target_column]
+        X_train, X_test, y_train, y_test = train_test_split(X, y, random_state=42, test_size=0.2)
+        logger.info("Training model...")
+        model = RandomForestClassifier(n_estimators=100, random_state=42)
+        model.fit(X_train, y_train)
+        predictions = model.predict(X_test)
+        accuracy = accuracy_score(y_test, predictions)
+        logger.info(f"Model Accuracy: {accuracy:.4f}")
+        mlflow.log_metric('accuracy', accuracy)
+        mlflow.log_metric('num_features', X_train.shape[1])
+        uptime = random.uniform(1, 5)  # Simulating uptime in seconds
+        mlflow.log_metric('app_uptime_seconds', uptime)
+    except KeyboardInterrupt:
+        logger.info("Training stopped by KeyboardInterrupt.")
+    except Exception as e:
+        logger.error(f"An error occurred: {str(e)}")
+    finally:
+        mlflow.end_run()
+if __name__ == "__main__":
+    logger.info("Training and Monitoring Application Started.")
+    try:
+        dataset_path = 'winequality_FS.csv'
+        target_column = 'quality'
+        
+        train_and_log_model(dataset_path, target_column)
+    
+    except Exception as e:
+        logger.error(f"An error occurred: {str(e)}")
+    finally:
+        logger.info("Training and Monitoring Application Stopped.")
